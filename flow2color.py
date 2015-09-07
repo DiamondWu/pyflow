@@ -15,23 +15,23 @@ def _makeColorWheel():
 
     colorwheel = numpy.zeros((ncols, 3))
     col = 0
-    colorwheel[0:RY, 0] = 255
-    colorwheel[0:RY, 1] = numpy.floor(255.*numpy.arange(RY)/RY)
+    colorwheel[0:RY, 0] = 1
+    colorwheel[0:RY, 1] = numpy.arange(RY, dtype = float)/RY
     col += RY
-    colorwheel[col:col+YG, 0] = 255 - numpy.floor(255.*numpy.arange(YG)/YG)
-    colorwheel[col:col+YG, 1] = 255
+    colorwheel[col:col+YG, 0] = 1 - numpy.arange(YG, dtype = float)/YG
+    colorwheel[col:col+YG, 1] = 1
     col += YG
-    colorwheel[col:col+GC, 1] = 255
-    colorwheel[col:col+GC, 2] = numpy.floor(255.*numpy.arange(GC)/GC)
+    colorwheel[col:col+GC, 1] = 1
+    colorwheel[col:col+GC, 2] = numpy.arange(GC, dtype = float)/GC
     col += GC
-    colorwheel[col:col+CB, 1] = 255 - numpy.floor(255.*numpy.arange(CB)/CB)
-    colorwheel[col:col+CB, 2] = 255
+    colorwheel[col:col+CB, 1] = 1 - numpy.arange(CB, dtype = float)/CB
+    colorwheel[col:col+CB, 2] = 1
     col += CB
-    colorwheel[col:col+BM, 2] = 255
-    colorwheel[col:col+BM, 0] = numpy.floor(255.*numpy.arange(BM)/BM)
+    colorwheel[col:col+BM, 2] = 1
+    colorwheel[col:col+BM, 0] = numpy.arange(BM, dtype = float)/BM
     col += BM
-    colorwheel[col:col+MR, 2] = 255 - numpy.floor(255.*numpy.arange(MR)/MR)
-    colorwheel[col:col+MR, 0] = 255
+    colorwheel[col:col+MR, 2] = 1 - numpy.arange(MR, dtype = float)/MR
+    colorwheel[col:col+MR, 0] = 1
 
     return colorwheel
 
@@ -59,14 +59,14 @@ def _computeColor(u, v):
 
     for i in range(ch):
         tmp = colorwheel[:, i]
-        color0 = tmp[k0]/255
-        color1 = tmp[k1]/255
+        color0 = tmp[k0]
+        color1 = tmp[k1]
         color = (1-f)*color0 + f*color1
 
         idx = rad <= 1
         color[idx] = 1 - rad[idx] * (1 - color[idx])
         color[~idx] = color[~idx] * 0.75
-        img[:, :, i] = numpy.floor(255 * color * (1 - nan_idx))
+        img[:, :, i] = color * (1 - nan_idx)
 
     return img
 
@@ -95,7 +95,7 @@ def flow2color(flow, max_flow = 0):
 
     img = _computeColor(u, v)
 
-    idx = numpy.tile(idx_unknown, [3, 1, 1])
+    idx = numpy.tile(idx_unknown.reshape(height, width, 1), [1, 1, 3])
     img[idx] = 0
 
     return img
