@@ -22,7 +22,7 @@ def readFlowFile(file_name):
 
     if len(file_name.split('.')) == 1:
         raise ValueError("readFlowFile: ext required.")
-    if (file_name.split('.')[-1] != 'flo'):
+    if file_name.split('.')[-1] != 'flo':
         raise ValueError("readFlowFile: ext error.")
 
     with open(file_name, 'rb') as flow_file:
@@ -31,9 +31,9 @@ def readFlowFile(file_name):
         # sanity check
         if tag != TAG_FLOAT:
             raise ValueError("readFlowFile: wrong tag.")
-        if not (1 < width < 99999):
+        if not 1 < width < 99999:
             raise ValueError("readFlowFile: illegal width.")
-        if not (1 < height < 99999):
+        if not 1 < height < 99999:
             raise ValueError("readFlowFile: illegal height.")
 
         nBands = 2
@@ -54,17 +54,16 @@ def writeFlowFile(flow, file_name):
 
     if len(file_name.split('.')) == 1:
         raise ValueError("writeFlowFile: ext required.")
-    if (file_name.split('.')[-1] != 'flo'):
+    if file_name.split('.')[-1] != 'flo':
         raise ValueError("writeFlowFile: ext error.")
 
     height, width, nBands = flow.shape
-    shape = np.array((width, height), dtype=np.uint32) 
+    shape = np.array((width, height), dtype=np.uint32)
 
-    if (nBands != 2):
+    if nBands != 2:
         raise ValueError('writeFlowFile: flow must have two bands')
 
     with open(file_name, 'wb') as flow_file:
         np.float32(TAG_FLOAT).tofile(flow_file)
-        shape.tofile(flow_file) 
-        flow.astype(np.float32).tofile(flow_file) 
-
+        shape.tofile(flow_file)
+        flow.astype(np.float32).tofile(flow_file)

@@ -11,7 +11,7 @@ if __name__ == "__main__":
     from numpy.testing import assert_equal
     import pylab
     import pyflow as f
-    
+
     flow = f.readFlowFile(r"flow10.flo")
     f.writeFlowFile(flow, "test.flo")
     g = f.readFlowFile(r"test.flo")

@@ -15,27 +15,27 @@ def _makeColorWheel():
         adapted from the color circle idea described at
         http://members.shaw.ca/quadibloc/other/colint.htm
     """
-    RY, YG, GC, CB, BM, MR = 15,  6,  4, 11, 13,  6
+    RY, YG, GC, CB, BM, MR = 15, 6, 4, 11, 13, 6
     ncols = RY + YG + GC + CB + BM + MR
 
     colorwheel = np.zeros((ncols, 3))
     col = 0
     colorwheel[0:RY, 0] = 1
-    colorwheel[0:RY, 1] = np.arange(RY, dtype = float)/RY
+    colorwheel[0:RY, 1] = np.arange(RY, dtype=float)/RY
     col += RY
-    colorwheel[col:col+YG, 0] = 1 - np.arange(YG, dtype = float)/YG
+    colorwheel[col:col+YG, 0] = 1 - np.arange(YG, dtype=float)/YG
     colorwheel[col:col+YG, 1] = 1
     col += YG
     colorwheel[col:col+GC, 1] = 1
-    colorwheel[col:col+GC, 2] = np.arange(GC, dtype = float)/GC
+    colorwheel[col:col+GC, 2] = np.arange(GC, dtype=float)/GC
     col += GC
-    colorwheel[col:col+CB, 1] = 1 - np.arange(CB, dtype = float)/CB
+    colorwheel[col:col+CB, 1] = 1 - np.arange(CB, dtype=float)/CB
     colorwheel[col:col+CB, 2] = 1
     col += CB
     colorwheel[col:col+BM, 2] = 1
-    colorwheel[col:col+BM, 0] = np.arange(BM, dtype = float)/BM
+    colorwheel[col:col+BM, 0] = np.arange(BM, dtype=float)/BM
     col += BM
-    colorwheel[col:col+MR, 2] = 1 - np.arange(MR, dtype = float)/MR
+    colorwheel[col:col+MR, 2] = 1 - np.arange(MR, dtype=float)/MR
     colorwheel[col:col+MR, 0] = 1
 
     return colorwheel
@@ -75,14 +75,14 @@ def _computeColor(u, v):
 
     return img
 
-def flow2color(flow, max_flow = 0):
+def flow2color(flow, max_flow=0):
     """
         color codes flow field, normalize based on speified value or maximum
         flow present.
     """
     height, width, nBands = flow.shape
 
-    if (nBands != 2):
+    if nBands != 2:
         raise ValueError('flow2color: flow must have two bands')
 
     u = np.copy(flow[:, :, 0])
