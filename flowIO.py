@@ -1,11 +1,12 @@
-"""
+﻿"""
     Flow file IO.
 """
 #   According to the c++ source code of Daniel Scharstein
 #   author: jojo love_faye@live.cn
 
 import struct
-import numpy
+
+import numpy as np
 
 TAG_FLOAT = 202021.25
 TAG_STR = 'PIEH'
@@ -36,7 +37,7 @@ def readFlowFile(file_name):
 
         nBands = 2
 
-        tmp = numpy.array(struct.unpack('f'*width*height*nBands, flow_file.read()))
+        tmp = np.array(struct.unpack('f'*width*height*nBands, flow_file.read()))
         img = tmp.reshape(height, width, nBands)
 
     return img
