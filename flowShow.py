@@ -1,3 +1,9 @@
+"""
+    Color codes flow field.
+"""
+#   According to the c++ source code of Daniel Scharstein
+#   author: jojo love_faye@live.cn
+
 import numpy
 
 UNKNOWN_FLOW_THRESHOLD = 1e9
@@ -71,6 +77,10 @@ def _computeColor(u, v):
     return img
 
 def flow2color(flow, max_flow = 0):
+    """
+        color codes flow field, normalize based on speified value or maximum
+        flow present.
+    """
     height, width, nBands = flow.shape
 
     if (nBands != 2):

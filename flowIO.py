@@ -1,4 +1,8 @@
+"""
+    Flow file IO.
+"""
 #   According to the c++ source code of Daniel Scharstein
+#   author: jojo love_faye@live.cn
 
 import struct
 import numpy
@@ -8,8 +12,9 @@ TAG_STR = 'PIEH'
 
 def readFlowFile(file_name):
     """
-    readFlowFile read a flow file FILENAME into 2-band image IMG
+        readFlowFile read a flow file FILENAME into 2-band image IMG
     """
+
     # sanity check
     if not file_name.strip():
         raise ValueError("readFlowFile: empty filename.")
@@ -38,8 +43,9 @@ def readFlowFile(file_name):
 
 def writeFlowFile(flow, file_name):
     """
-    writeFlowFile writes a 2-band image IMG into flow file FILENAME
+        writeFlowFile writes a 2-band image IMG into flow file FILENAME
     """
+
     # sanity check
     if not file_name.strip():
         raise ValueError("writeFlowFile: empty filename.")
