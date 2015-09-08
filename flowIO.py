@@ -11,6 +11,8 @@ import numpy as np
 TAG_FLOAT = 202021.25
 TAG_STR = 'PIEH'
 
+UNKNOWN_FLOW_THRESHOLD = 1e9
+
 def readFlowFile(file_name):
     """
         readFlowFile read a flow file FILENAME into 2-band image IMG

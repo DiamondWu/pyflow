@@ -6,7 +6,7 @@
 
 import numpy as np
 
-UNKNOWN_FLOW_THRESHOLD = 1e9
+from .flowIO import UNKNOWN_FLOW_THRESHOLD
 
 def _makeColorWheel():
     """
@@ -108,12 +108,3 @@ def flow2color(flow, max_flow = 0):
     img[idx] = 0
 
     return img
-
-if __name__ == "__main__":
-    import pylab
-    import flowIO
-    
-    flow = flowIO.readFlowFile(r"flow10.flo")
-    img = flow2color(flow)
-
-    pylab.imshow(img)
