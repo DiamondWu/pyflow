@@ -85,8 +85,8 @@ def flow2color(flow, max_flow = 0):
     if (nBands != 2):
         raise ValueError('flow2color: flow must have two bands')
 
-    u = flow[:, :, 0]
-    v = flow[:, :, 1]
+    u = np.copy(flow[:, :, 0])
+    v = np.copy(flow[:, :, 1])
 
     # fix unknown flow
     idx_unknown = np.logical_or(abs(u) > UNKNOWN_FLOW_THRESHOLD, abs(v) > UNKNOWN_FLOW_THRESHOLD)

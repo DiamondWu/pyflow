@@ -4,8 +4,6 @@
 #   According to the c++ source code of Daniel Scharstein
 #   author: jojo love_faye@live.cn
 
-import struct
-
 import numpy as np
 
 TAG_FLOAT = 202021.25
@@ -28,7 +26,8 @@ def readFlowFile(file_name):
         raise ValueError("readFlowFile: ext error.")
 
     with open(file_name, 'rb') as flow_file:
-        (tag, width, height) = struct.unpack('fii', flow_file.read(4 + 4 + 4))
+        tag, = np.fromfile(flow_file, np.float32, 1)
+        width, height = np.fromfile(flow_file, np.uint32, 2)
         # sanity check
         if tag != TAG_FLOAT:
             raise ValueError("readFlowFile: wrong tag.")
@@ -39,7 +38,7 @@ def readFlowFile(file_name):
 
         nBands = 2
 
-        tmp = np.array(struct.unpack('f'*width*height*nBands, flow_file.read()))
+        tmp = np.fromfile(flow_file, np.float32)
         img = tmp.reshape(height, width, nBands)
 
     return img
@@ -59,10 +58,13 @@ def writeFlowFile(flow, file_name):
         raise ValueError("writeFlowFile: ext error.")
 
     height, width, nBands = flow.shape
+    shape = np.array((width, height), dtype=np.uint32) 
 
     if (nBands != 2):
         raise ValueError('writeFlowFile: flow must have two bands')
 
     with open(file_name, 'wb') as flow_file:
-        flow_file.write(struct.pack('fii', TAG_FLOAT, width, height))
-        flow_file.write(struct.pack('f'*flow.size, *flow.reshape(flow.size)))
+        np.float32(TAG_FLOAT).tofile(flow_file)
+        shape.tofile(flow_file) 
+        flow.astype(np.float32).tofile(flow_file) 
+
