@@ -1,10 +1,12 @@
-"""
+﻿"""
     Color codes flow field.
 """
 #   According to the c++ source code of Daniel Scharstein
 #   author: jojo love_faye@live.cn
 
 import numpy
+import pylab
+import pyflow
 
 UNKNOWN_FLOW_THRESHOLD = 1e9
 UNKNOWN_FLOW = 1e10
@@ -109,3 +111,12 @@ def flow2color(flow, max_flow = 0):
     img[idx] = 0
 
     return img
+
+if __name__ == "__main__":
+    import pylab
+    import flowIO
+    
+    flow = flowIO.readFlowFile(r"flow10.flo")
+    img = flow2color(flow)
+
+    pylab.imshow(img)
