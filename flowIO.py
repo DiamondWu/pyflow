@@ -11,20 +11,25 @@ TAG_STR = 'PIEH'
 
 UNKNOWN_FLOW_THRESHOLD = 1e9
 
+def flow_file_sanity_check(func):
+    def flow_file_io_func(*args):
+        # sanity check
+        file_name = args[0]
+        if not file_name.strip():
+            raise ValueError("empty filename.")
+        if len(file_name.split('.')) == 1:
+            raise ValueError("ext required.")
+        if file_name.split('.')[-1] != 'flo':
+            raise ValueError("ext error.")
+        return func(*args)
+
+    return flow_file_io_func
+
+@flow_file_sanity_check
 def readFlowFile(file_name):
     """
         readFlowFile read a flow file FILENAME into 2-band image IMG
     """
-
-    # sanity check
-    if not file_name.strip():
-        raise ValueError("readFlowFile: empty filename.")
-
-    if len(file_name.split('.')) == 1:
-        raise ValueError("readFlowFile: ext required.")
-    if file_name.split('.')[-1] != 'flo':
-        raise ValueError("readFlowFile: ext error.")
-
     with open(file_name, 'rb') as flow_file:
         tag, = np.fromfile(flow_file, np.float32, 1)
         width, height = np.fromfile(flow_file, np.uint32, 2)
@@ -43,20 +48,11 @@ def readFlowFile(file_name):
 
     return img
 
-def writeFlowFile(flow, file_name):
+@flow_file_sanity_check
+def writeFlowFile(file_name, flow):
     """
         writeFlowFile writes a 2-band image IMG into flow file FILENAME
     """
-
-    # sanity check
-    if not file_name.strip():
-        raise ValueError("writeFlowFile: empty filename.")
-
-    if len(file_name.split('.')) == 1:
-        raise ValueError("writeFlowFile: ext required.")
-    if file_name.split('.')[-1] != 'flo':
-        raise ValueError("writeFlowFile: ext error.")
-
     height, width, nBands = flow.shape
     shape = np.array((width, height), dtype=np.uint32)
 

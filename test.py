@@ -13,7 +13,7 @@ if __name__ == "__main__":
     import pyflow as f
 
     flow = f.readFlowFile(r"flow10.flo")
-    f.writeFlowFile(flow, "test.flo")
+    f.writeFlowFile("test.flo", flow)
     g = f.readFlowFile(r"test.flo")
 
     assert_equal(flow, g)

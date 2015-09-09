@@ -7,10 +7,8 @@ import numpy as np
 
 from .flowIO import UNKNOWN_FLOW_THRESHOLD
 
-def EE(test, gt):
-    (test - gt) ** 2
-    print UNKNOWN_FLOW_THRESHOLD
+def calcEndPointError(self, flow, gt):
+    pass
 
-
-def AE(test, gt):
+def calcAngleError(self, flow, gt):
     pass
