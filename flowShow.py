@@ -44,10 +44,6 @@ def _computeColor(u, v):
     """
         computeColor color codes flow field U, V
     """
-    nan_idx = np.logical_or(np.isnan(u), np.isnan(v))
-    u[nan_idx] = 0
-    v[nan_idx] = 0
-
     colorwheel = _makeColorWheel()
     ncols, ch = colorwheel.shape
 
@@ -71,7 +67,7 @@ def _computeColor(u, v):
         idx = rad <= 1
         color[idx] = 1 - rad[idx] * (1 - color[idx])
         color[~idx] = color[~idx] * 0.75
-        img[:, :, i] = color * (1 - nan_idx)
+        img[:, :, i] = color
 
     return img
 
@@ -89,7 +85,8 @@ def flow2color(flow, max_flow=0):
     v = np.copy(flow[:, :, 1])
 
     # fix unknown flow
-    idx_unknown = np.logical_or(abs(u) > UNKNOWN_FLOW_THRESHOLD, abs(v) > UNKNOWN_FLOW_THRESHOLD)
+    idx_unknown = np.logical_or(np.logical_or(abs(u) > UNKNOWN_FLOW_THRESHOLD, abs(v) > UNKNOWN_FLOW_THRESHOLD),\
+                                np.logical_or(np.isnan(u), np.isnan(v)))
     u[idx_unknown] = 0
     v[idx_unknown] = 0
 
@@ -99,8 +96,11 @@ def flow2color(flow, max_flow=0):
     if max_flow != 0:
         maxrad = max_flow
 
-    u = u/(maxrad + np.spacing(1))
-    v = v/(maxrad + np.spacing(1))
+    if maxrad == 0:
+        maxrad = 1 
+
+    u = u / maxrad
+    v = v / maxrad
 
     img = _computeColor(u, v)
 
