@@ -6,6 +6,7 @@
 
 from .flowIO import readFlowFile, writeFlowFile
 from .flowShow import flow2color
+from .flowEval import calcEndPointError, calcStatEPE
 from .colorTest import showColorScheme
 
 __all__ = ["flowIO", "flowShow", "flowEval"]

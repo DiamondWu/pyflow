@@ -6,7 +6,6 @@
 import numpy as np
 
 from .flowIO import UNKNOWN_FLOW_THRESHOLD
-import sys
 
 def fix_unknown(flow):
     height, width, nBands = flow.shape
@@ -23,10 +22,26 @@ def fix_unknown(flow):
     u[idx_unknown] = 0
     v[idx_unknown] = 0
 
-    return fixed_flow
-
 def calcEndPointError(flow, gt):
-    pass
+    # check shape
+    if not flow.shape == gt.shape:
+        raise ValueError('flow must have the same size as gt')
+    epe = np.sqrt(np.sum((flow - gt) ** 2, axis = 2))
 
-def calcAngleError(self, flow, gt):
-    pass
+    # fix unknown flow
+    u = flow[:, :, 0]
+    v = flow[:, :, 1]
+    idx_unknown = np.logical_or(np.logical_or(abs(u) > UNKNOWN_FLOW_THRESHOLD, abs(v) > UNKNOWN_FLOW_THRESHOLD),\
+                                np.logical_or(np.isnan(u), np.isnan(v)))
+    
+    epe[idx_unknown] = 0
+
+    return epe
+
+def calcStatEPE(epe):
+    return (np.mean(epe),
+            np.std(epe),
+            np.sum(epe>0.5),
+            np.sum(epe>1.0),
+            np.sum(epe>2.0),
+            )
