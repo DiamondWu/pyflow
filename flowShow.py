@@ -4,6 +4,7 @@
 #   According to the c++ source code of Daniel Scharstein
 #   author: jojo love_faye@live.cn
 
+from __future__ import division
 import numpy as np
 
 from .flowIO import UNKNOWN_FLOW_THRESHOLD
@@ -21,21 +22,21 @@ def _makeColorWheel():
     colorwheel = np.zeros((ncols, 3))
     col = 0
     colorwheel[0:RY, 0] = 1
-    colorwheel[0:RY, 1] = np.arange(RY, dtype=float)/RY
+    colorwheel[0:RY, 1] = np.arange(RY)/RY
     col += RY
-    colorwheel[col:col+YG, 0] = 1 - np.arange(YG, dtype=float)/YG
+    colorwheel[col:col+YG, 0] = 1 - np.arange(YG)/YG
     colorwheel[col:col+YG, 1] = 1
     col += YG
     colorwheel[col:col+GC, 1] = 1
-    colorwheel[col:col+GC, 2] = np.arange(GC, dtype=float)/GC
+    colorwheel[col:col+GC, 2] = np.arange(GC)/GC
     col += GC
-    colorwheel[col:col+CB, 1] = 1 - np.arange(CB, dtype=float)/CB
+    colorwheel[col:col+CB, 1] = 1 - np.arange(CB)/CB
     colorwheel[col:col+CB, 2] = 1
     col += CB
     colorwheel[col:col+BM, 2] = 1
-    colorwheel[col:col+BM, 0] = np.arange(BM, dtype=float)/BM
+    colorwheel[col:col+BM, 0] = np.arange(BM)/BM
     col += BM
-    colorwheel[col:col+MR, 2] = 1 - np.arange(MR, dtype=float)/MR
+    colorwheel[col:col+MR, 2] = 1 - np.arange(MR)/MR
     colorwheel[col:col+MR, 0] = 1
 
     return colorwheel

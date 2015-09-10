@@ -3,6 +3,8 @@
 """
 #   author: jojo love_faye@live.cn
 
+from __future__ import division
+
 import numpy as np
 
 from .flowIO import UNKNOWN_FLOW_THRESHOLD
@@ -29,8 +31,8 @@ def calcEndPointError(flow, gt):
     epe = np.sqrt(np.sum((flow - gt) ** 2, axis = 2))
 
     # fix unknown flow
-    u = flow[:, :, 0]
-    v = flow[:, :, 1]
+    u = gt[:, :, 0]
+    v = gt[:, :, 1]
     idx_unknown = np.logical_or(np.logical_or(abs(u) > UNKNOWN_FLOW_THRESHOLD, abs(v) > UNKNOWN_FLOW_THRESHOLD),\
                                 np.logical_or(np.isnan(u), np.isnan(v)))
     
@@ -41,7 +43,7 @@ def calcEndPointError(flow, gt):
 def calcStatEPE(epe):
     return (np.mean(epe),
             np.std(epe),
-            np.sum(epe>0.5),
-            np.sum(epe>1.0),
-            np.sum(epe>2.0),
+            np.sum(epe>0.5)/epe.size,
+            np.sum(epe>1.0)/epe.size,
+            np.sum(epe>2.0)/epe.size,
             )
