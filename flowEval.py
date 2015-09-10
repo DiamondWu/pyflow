@@ -18,13 +18,14 @@ def fix_unknown(flow):
     v = np.copy(flow[:, :, 1])
 
     # fix unknown flow
-    idx_unknown = np.logical_or(abs(u) > UNKNOWN_FLOW_THRESHOLD, abs(v) > UNKNOWN_FLOW_THRESHOLD)
+    idx_unknown = np.logical_or(np.logical_or(abs(u) > UNKNOWN_FLOW_THRESHOLD, abs(v) > UNKNOWN_FLOW_THRESHOLD),\
+                                np.logical_or(np.isnan(u), np.isnan(v)))
     u[idx_unknown] = 0
     v[idx_unknown] = 0
 
     return fixed_flow
 
-def calcEndPointError(self, flow, gt):
+def calcEndPointError(flow, gt):
     pass
 
 def calcAngleError(self, flow, gt):
