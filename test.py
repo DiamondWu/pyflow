@@ -31,5 +31,4 @@ if __name__ == "__main__":
     next_gray = cv2.cvtColor(next, cv2.COLOR_BGR2GRAY)
     fbflow = cv2.calcOpticalFlowFarneback(prev_gray, next_gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
 
-    epe = pyflow.calcEndPointError(fbflow, flow)
-    print pyflow.calcStatEPE(epe)
+    print pyflow.calcStatEPE(flow, gt)

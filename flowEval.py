@@ -40,10 +40,12 @@ def calcEndPointError(flow, gt):
 
     return epe
 
-def calcStatEPE(epe):
+def calcStatEPE(flow, gt):
+    epe = calcEndPointError(flow, gt)
+
     return (np.mean(epe),
             np.std(epe),
-            np.sum(epe>0.5)/epe.size,
-            np.sum(epe>1.0)/epe.size,
-            np.sum(epe>2.0)/epe.size,
+            np.sum(epe>0.5)/epe.size * 100,
+            np.sum(epe>1.0)/epe.size * 100,
+            np.sum(epe>2.0)/epe.size * 100
             )
