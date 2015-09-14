@@ -1,6 +1,4 @@
-﻿"""
-    Color codes flow field.
-"""
+﻿""" Color codes flow field. """
 #   According to the c++ source code of Daniel Scharstein
 #   author: jojo love_faye@live.cn
 
@@ -10,11 +8,10 @@ import numpy as np
 from .flow_io import UNKNOWN_FLOW_THRESHOLD
 
 def _make_color_wheel():
-    """
-        color encoding scheme
+    """ color encoding scheme
 
-        adapted from the color circle idea described at
-        http://members.shaw.ca/quadibloc/other/colint.htm
+    adapted from the color circle idea described at
+    http://members.shaw.ca/quadibloc/other/colint.htm
     """
     RY, YG, GC, CB, BM, MR = 15, 6, 4, 11, 13, 6
     ncols = RY + YG + GC + CB + BM + MR
@@ -42,9 +39,7 @@ def _make_color_wheel():
     return colorwheel
 
 def _compute_color(u_comp, v_comp):
-    """
-        computeColor color codes flow field U, V
-    """
+    """computeColor color codes flow field U, V."""
     color_wheel = _make_color_wheel()
     ncols, n_channels = color_wheel.shape
 

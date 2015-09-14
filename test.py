@@ -1,6 +1,4 @@
-﻿"""
-    test module
-"""
+﻿"""test module"""
 #import unittest
 
 #class Test_test(unittest.TestCase):

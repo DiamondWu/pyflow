@@ -1,6 +1,7 @@
-﻿"""
-    The :mod:`pyflow` module gathers tools for input, output, visualization and
-    evaluation of flow file.
+﻿""" pyflow
+
+The :mod:`pyflow` module gathers tools for input, output, visualization and
+evaluation of flow file.
 """
 #   author: jojo love_faye@live.cn
 

@@ -1,6 +1,4 @@
-﻿"""
-    Flow file IO.
-"""
+﻿"""Flow file IO."""
 #   According to the c++ source code of Daniel Scharstein
 #   author: jojo love_faye@live.cn
 
@@ -12,7 +10,7 @@ TAG_STR = 'PIEH'
 UNKNOWN_FLOW_THRESHOLD = 1e9
 
 def flow_file_sanity_check(func):
-    """decorator to check the flow file name"""
+    """decorator to check the flow file name."""
     def flow_file_io_func(*args):
         # sanity check
         file_name = args[0]
@@ -28,7 +26,7 @@ def flow_file_sanity_check(func):
 
 @flow_file_sanity_check
 def read_flow_file(file_name):
-    """read_flow_file read a flow file FILENAME into 2-band image IMG"""
+    """read_flow_file read a flow file FILENAME into 2-band image IMG."""
     with open(file_name, 'rb') as flow_file:
         tag, = np.fromfile(flow_file, np.float32, 1)
         width, height = np.fromfile(flow_file, np.uint32, 2)
@@ -49,7 +47,7 @@ def read_flow_file(file_name):
 
 @flow_file_sanity_check
 def write_flow_file(file_name, flow):
-    """write_flow_file writes a 2-band image IMG into flow file FILENAME"""
+    """write_flow_file writes a 2-band image IMG into flow file FILENAME."""
     height, width, n_bands = flow.shape
     shape = np.array((width, height), dtype=np.uint32)
 

@@ -1,6 +1,4 @@
-﻿"""
-    creates a test image showing the color encoding scheme.
-"""
+﻿"""creates a test image showing the color encoding scheme."""
 #   According to the c++ source code of Daniel Scharstein
 #   author: jojo love_faye@live.cn
 
