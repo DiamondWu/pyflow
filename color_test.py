@@ -6,9 +6,10 @@
 
 import numpy as np
 
-from .flowShow import _computeColor
+from .flow_show import _compute_color
 
-def showColorScheme():
+def show_color_scheme():
+    """show the color encoding scheme."""
     true_range = 1
     rng = true_range * 1.04
 
@@ -17,10 +18,10 @@ def showColorScheme():
 
     x, y = np.meshgrid(range(width), range(height))
 
-    u = x * rng / a - rng;
-    v = y * rng / a - rng;
+    u = x * rng / a - rng
+    v = y * rng / a - rng
 
-    img = _computeColor(u, v)
+    img = _compute_color(u, v)
 
     img[a, :, :] = 0
     img[:, a, :] = 0

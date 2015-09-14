@@ -7,9 +7,9 @@
 from __future__ import division
 import numpy as np
 
-from .flowIO import UNKNOWN_FLOW_THRESHOLD
+from .flow_io import UNKNOWN_FLOW_THRESHOLD
 
-def _makeColorWheel():
+def _make_color_wheel():
     """
         color encoding scheme
 
@@ -41,15 +41,15 @@ def _makeColorWheel():
 
     return colorwheel
 
-def _computeColor(u, v):
+def _compute_color(u_comp, v_comp):
     """
         computeColor color codes flow field U, V
     """
-    colorwheel = _makeColorWheel()
-    ncols, ch = colorwheel.shape
+    color_wheel = _make_color_wheel()
+    ncols, n_channels = color_wheel.shape
 
-    rad = np.sqrt(u**2 + v**2)
-    angle = np.arctan2(-v, -u)/np.pi
+    rad = np.sqrt(u_comp**2 + v_comp**2)
+    angle = np.arctan2(-v_comp, -u_comp)/np.pi
 
     fk = (angle+1)/2 * (ncols - 1)
     k0 = np.floor(fk).astype(np.int)
@@ -57,13 +57,10 @@ def _computeColor(u, v):
     k1[k1 == ncols] = 0
     f = fk - k0
 
-    img = np.zeros((u.shape[0], u.shape[1], 3))
+    img = np.zeros((u_comp.shape[0], u_comp.shape[1], 3))
 
-    for i in range(ch):
-        tmp = colorwheel[:, i]
-        color0 = tmp[k0]
-        color1 = tmp[k1]
-        color = (1-f)*color0 + f*color1
+    for i in range(n_channels):
+        color = (1-f)*color_wheel[k0, i] + f*color_wheel[k1, i]
 
         idx = rad <= 1
         color[idx] = 1 - rad[idx] * (1 - color[idx])
@@ -72,38 +69,36 @@ def _computeColor(u, v):
 
     return img
 
-def flow2color(flow, max_flow=0):
-    """
-        color codes flow field, normalize based on speified value or maximum
-        flow present.
-    """
-    height, width, nBands = flow.shape
+def flow_to_color(flow, max_flow=0):
+    """color codes flow field, normalize based on speified value or maximum flow present."""
+    height, width, n_bands = flow.shape
 
-    if nBands != 2:
-        raise ValueError('flow2color: flow must have two bands')
+    if n_bands != 2:
+        raise ValueError('flow_to_color: flow must have two bands')
 
-    u = np.copy(flow[:, :, 0])
-    v = np.copy(flow[:, :, 1])
+    u_comp = np.copy(flow[:, :, 0])
+    v_comp = np.copy(flow[:, :, 1])
 
     # fix unknown flow
-    idx_unknown = np.logical_or(np.logical_or(abs(u) > UNKNOWN_FLOW_THRESHOLD, abs(v) > UNKNOWN_FLOW_THRESHOLD),\
-                                np.logical_or(np.isnan(u), np.isnan(v)))
-    u[idx_unknown] = 0
-    v[idx_unknown] = 0
+    idx_unknown = np.logical_or(abs(u_comp) > UNKNOWN_FLOW_THRESHOLD,\
+                                abs(v_comp) > UNKNOWN_FLOW_THRESHOLD)
+    idx_unknown = np.logical_or(idx_unknown, np.logical_or(np.isnan(u_comp), np.isnan(v_comp)))
+    u_comp[idx_unknown] = 0
+    v_comp[idx_unknown] = 0
 
-    rad = np.sqrt(u**2 + v**2)
+    rad = np.sqrt(u_comp**2 + v_comp**2)
     maxrad = max(-1, np.max(rad))
 
     if max_flow != 0:
         maxrad = max_flow
 
     if maxrad == 0:
-        maxrad = 1 
+        maxrad = 1
 
-    u = u / maxrad
-    v = v / maxrad
+    u_comp = u_comp / maxrad
+    v_comp = v_comp / maxrad
 
-    img = _computeColor(u, v)
+    img = _compute_color(u_comp, v_comp)
 
     idx = np.tile(idx_unknown.reshape(height, width, 1), [1, 1, 3])
     img[idx] = 0
