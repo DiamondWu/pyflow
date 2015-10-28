@@ -5,7 +5,7 @@
 from __future__ import division
 import numpy as np
 
-from .flow_io import UNKNOWN_FLOW_THRESHOLD
+from .io import UNKNOWN_FLOW_THRESHOLD
 
 def _make_color_wheel():
     """ color encoding scheme

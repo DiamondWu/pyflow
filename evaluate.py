@@ -5,7 +5,7 @@ from __future__ import division
 
 import numpy as np
 
-from .flow_io import UNKNOWN_FLOW_THRESHOLD
+from .io import UNKNOWN_FLOW_THRESHOLD
 
 def calc_end_point_error(flow, ground_truth):
     """calculate the end point error."""
@@ -26,7 +26,7 @@ def calc_end_point_error(flow, ground_truth):
 
     return epe
 
-def calc_stat_epe(flow, ground_truth):
+def calc_epe_stat(flow, ground_truth):
     """calculate the statistic of end point error."""
     epe = calc_end_point_error(flow, ground_truth)
 

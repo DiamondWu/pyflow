@@ -4,7 +4,7 @@
 
 import numpy as np
 
-from .flow_show import _compute_color
+from .show import _compute_color
 
 def show_color_scheme():
     """show the color encoding scheme."""
