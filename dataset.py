@@ -24,9 +24,11 @@ class MPISintel(FlowDataset):
     def _get_triple(self, flow_file):
         ext = 'png'
         fprev_file = flow_file.replace('flow','final').replace('flo', ext)
-        pre = fprev_file.split('.')[0].split('_')
-        pre[2] = str(int(pre[2])+1).zfill(4)
-        fnext_file= '.'.join(('_'.join(pre), ext))
+	under_pos = fprev_file.rfind('_')
+	dot_pos = fprev_file.rfind('.')
+	pre = fprev_file[:under_pos]
+	idx = str(int(fprev_file[under_pos+1:dot_pos])+1).zfill(4)
+        fnext_file= '.'.join(('_'.join((pre, idx)), ext))
         return (flow_file, fprev_file, fnext_file)
 
     def collect_sintel_files(self, path):
