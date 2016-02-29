@@ -5,7 +5,7 @@ import os
 
 from sklearn.cross_validation import train_test_split
 
-class FlowSet(object):
+class FlowDataset(object):
     def __init__(self):
         self.frame_list = []
         self.train_list = []
@@ -15,9 +15,9 @@ class FlowSet(object):
         self.train_list, self.test_list = train_test_split(self.frame_list)
 
 
-class SintelFlowSet(FlowSet):
+class MPISintel(FlowDataset):
     def __init__(self, path):
-        FlowSet.__init__(self)
+        FlowDataset.__init__(self)
         self.collect_sintel_files(path)
         self.shuffle()
 
