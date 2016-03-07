@@ -1,5 +1,7 @@
 ﻿"""test module"""
 
+from __future__ import print_function
+
 if __name__ == "__main__":
     from numpy.testing import assert_equal
     import cv2
@@ -25,4 +27,4 @@ if __name__ == "__main__":
     next_gray = cv2.cvtColor(next_frame, cv2.COLOR_BGR2GRAY)
     fbflow = cv2.calcOpticalFlowFarneback(prev_gray, next_gray, 0.5, 3, 15, 3, 5, 1.2, 0)
 
-    print pyflow.calc_epe_stat(fbflow, flow)
+    print(pyflow.calc_epe_stat(fbflow, flow))
