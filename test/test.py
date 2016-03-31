@@ -3,6 +3,8 @@
 from __future__ import print_function
 
 if __name__ == "__main__":
+    import sys
+    sys.path.insert(0, '../../')
     from numpy.testing import assert_equal
     import cv2
     import pylab
